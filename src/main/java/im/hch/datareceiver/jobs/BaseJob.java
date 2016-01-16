@@ -1,11 +1,10 @@
 package im.hch.datareceiver.jobs;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.quartz.*;
 
 public abstract class BaseJob implements Job {
-    static Logger logger = LogManager.getLogger();
+    static Logger logger = Logger.getLogger(BaseJob.class);
 
     public static final String ARGS = "args";
     protected JobExecutionContext jobExecutionContext;
@@ -27,6 +26,6 @@ public abstract class BaseJob implements Job {
 
     private void handleJobResult(String result) {
         //TODO handle job result
-        logger.debug(result);
+        logger.debug(result.substring(0, 100));
     }
 }

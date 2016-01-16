@@ -1,8 +1,8 @@
 package im.hch.datareceiver.scheduler;
 
+import im.hch.datareceiver.Config;
 import im.hch.datareceiver.jobs.BaseJob;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -11,7 +11,7 @@ public class DataReceiverScheduler {
     private static final DataReceiverScheduler instance = new DataReceiverScheduler();
     private SchedulerFactory schedulerFactory;
     private Scheduler scheduler;
-    private static final Logger logger = LogManager.getLogger(DataReceiverScheduler.class);
+    private static final Logger logger = Logger.getLogger(DataReceiverScheduler.class);
     private static final String GROUP_NAME = "DR_GROUP";
 
     public static DataReceiverScheduler getInstance() {
@@ -53,6 +53,10 @@ public class DataReceiverScheduler {
             logger.error("Failed to schedule job.", se);
             return false;
         }
+    }
+
+    public boolean addJob(Config.JobConfig config) {
+        return addJob(config.name, config.className, config.cronExpression, config.args);
     }
 
     public void start() {

@@ -1,22 +1,47 @@
 package im.hch.datareceiver;
 
 import im.hch.datareceiver.scheduler.DataReceiverScheduler;
+import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
 
 public class Main {
+    private DataReceiverScheduler scheduler;
+    private static Logger logger = Logger.getLogger(Main.class);
+    private Config config;
 
-    public static void main(String[] args) {
-        DataReceiverScheduler scheduler = DataReceiverScheduler.getInstance();
-        Object[] params = new Object[] {"http://www.google.com"};
-        String exp = "0/10 * * * * ?";
-        scheduler.addJob("test", "im.hch.datareceiver.jobs.CurlJob", exp, params);
-        scheduler.start();
+    public static final String CONFIG_FILE = "config.json";
 
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public Main() {
+        scheduler = DataReceiverScheduler.getInstance();
+    }
+
+    public void init() {
+        config = new Config();
+
+        if (!config.isValid()) {
+            logger.fatal("Failed to parse config file: " + CONFIG_FILE);
+            System.exit(-1);
         }
 
-        System.exit(0);
+        initScheduler();
+    }
+
+    private void initScheduler() {
+        ArrayList<Config.JobConfig> jobConfigs = config.getJobConfigs();
+        for (int i = 0; i < jobConfigs.size(); i++) {
+            Config.JobConfig jobConfig = jobConfigs.get(i);
+            scheduler.addJob(jobConfig);
+        }
+    }
+
+    public void startScheduler() {
+        scheduler.start();
+    }
+
+    public static void main(String[] args) {
+        Main main = new Main();
+        main.init();
+        main.startScheduler();
     }
 }

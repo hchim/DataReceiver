@@ -1,0 +1,12 @@
+{
+  "jobs" : [
+    {
+      "name": "curl",
+      "class": "im.hch.datareceiver.jobs.CurlJob",
+      "cron_expression": "0/10 * * * * ?",
+      "args": [
+        "http://www.google.com"
+      ]
+    }
+  ]
+}
