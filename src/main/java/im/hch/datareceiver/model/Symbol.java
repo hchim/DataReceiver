@@ -6,9 +6,10 @@ import org.mongodb.morphia.annotations.*;
 import java.util.Date;
 
 @Entity(Market.TABLE_NAME)
-@Indexes(
-        @Index(value = "symbol", fields = @Field("symbol"))
-)
+@Indexes({
+    @Index(fields = @Field("symbol")),
+    @Index(fields = @Field("name"))
+})
 public class Symbol {
     public static final String TABLE_NAME = "symbols";
 

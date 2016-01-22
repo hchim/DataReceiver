@@ -2,13 +2,14 @@ package im.hch.datareceiver.model;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.*;
+import org.mongodb.morphia.utils.IndexType;
 
 import java.util.Date;
 
-@Entity(Market.TABLE_NAME)
-@Indexes(
-        @Index(value = "name", fields = @Field("name"))
-)
+@Entity(value = Market.TABLE_NAME, noClassnameStored = true)
+@Indexes({
+    @Index(fields = {@Field("symbol"), @Field("type"), @Field(value = "time", type = IndexType.DESC)})
+})
 public class SymbolPrice {
     public static final String TABLE_NAME = "prices";
 

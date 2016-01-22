@@ -5,7 +5,7 @@ import org.mongodb.morphia.annotations.*;
 
 @Entity(Market.TABLE_NAME)
 @Indexes(
-    @Index(value = "name", fields = @Field("name"))
+    @Index(fields = @Field("name"))
 )
 public class Market {
     public static final String TABLE_NAME = "markets";

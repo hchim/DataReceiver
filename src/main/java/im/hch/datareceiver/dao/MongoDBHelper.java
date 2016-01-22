@@ -16,6 +16,7 @@ public class MongoDBHelper {
 
         Config.DatabaseConfig dbConfg = Config.getConfig().getDatabaseConfig();
         datastore = morphia.createDatastore(new MongoClient(dbConfg.host, dbConfg.port), dbConfg.dbName);
+        datastore.ensureIndexes();
     }
 
     public Datastore getDatastore() {
