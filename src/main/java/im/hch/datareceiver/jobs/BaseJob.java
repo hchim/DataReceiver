@@ -25,7 +25,6 @@ public abstract class BaseJob implements Job {
     public abstract String execute(Object[] args);
 
     private void handleJobResult(String result) {
-        //TODO handle job result
         logger.debug(result.substring(0, 100));
     }
 }

@@ -17,7 +17,7 @@ public class Main {
     }
 
     public void init() {
-        config = new Config();
+        config = Config.getConfig();
 
         if (!config.isValid()) {
             logger.fatal("Failed to parse config file: " + CONFIG_FILE);
