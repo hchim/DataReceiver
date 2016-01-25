@@ -3,28 +3,48 @@ package im.hch.datareceiver.model;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.*;
 
-@Entity(Market.TABLE_NAME)
+import java.util.TimeZone;
+
+@Entity(value = Market.TABLE_NAME, noClassnameStored = true)
 @Indexes(
     @Index(fields = @Field("name"))
 )
 public class Market {
     public static final String TABLE_NAME = "markets";
+    public static enum Columns {
+        ID("_id"),
+        NAME("name"),
+        OPENTIME("open_time"),
+        CLOSETIME("close_time"),
+        TIMEZONE("timezone");
+
+        private final String name;
+
+        Columns(String name) {
+            this.name = name;
+        }
+
+        public String val() {
+            return name;
+        }
+    };
 
     @Id
     private ObjectId id;
     private String name;
-    // open time and close time are minutes of the day
     @Property("open_time")
     private int openTime;
     @Property("close_time")
     private int closeTime;
+    private String timezone;
 
     public Market() {}
 
-    public Market(String name, int openTime, int closeTime) {
+    public Market(String name, int openTime, int closeTime, String timeZone) {
         this.name = name;
         this.openTime = openTime;
         this.closeTime = closeTime;
+        this.timezone = timeZone;
     }
 
     public ObjectId getId() {
@@ -57,5 +77,21 @@ public class Market {
 
     public void setCloseTime(int closeTime) {
         this.closeTime = closeTime;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public TimeZone getTimeZoneObj() {
+        if (timezone == null) {
+            return null;
+        }
+
+        return TimeZone.getTimeZone(timezone);
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 }

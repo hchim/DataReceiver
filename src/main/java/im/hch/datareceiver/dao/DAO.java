@@ -1,12 +1,12 @@
 package im.hch.datareceiver.dao;
 
-import org.mongodb.morphia.Key;
-
 import java.util.List;
 
 public interface DAO {
 
     public void insert(Object obj);
+
+    public void insert(List objs);
 
     public void update(Object obj);
 

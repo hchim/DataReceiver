@@ -8,9 +8,13 @@ import java.util.ArrayList;
 
 public class Config {
     public static final String CONFIG_FILE = "config.json";
+    // data sources
+    public static final String DATASOURCE_GOOGLE = "google";
+
     private JSONObject object;
     private ArrayList<JobConfig> jobConfigs;
     private DatabaseConfig dbConfig;
+    private String dataSource;
     private static Config instance;
 
     private Config() {
@@ -22,6 +26,7 @@ public class Config {
         }
 
         dbConfig = new DatabaseConfig(object.getJSONObject("db_config"));
+        dataSource = object.optString("datasource", DATASOURCE_GOOGLE);
     }
 
     public synchronized static Config getConfig() {
@@ -34,6 +39,10 @@ public class Config {
 
     public boolean isValid() {
         return object != null;
+    }
+
+    public String getDataSource() {
+        return dataSource;
     }
 
     public ArrayList<JobConfig> getJobConfigs() {

@@ -1,7 +1,6 @@
 package im.hch.datareceiver.dao;
 
 import im.hch.datareceiver.model.Market;
-import im.hch.datareceiver.model.Symbol;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -25,7 +24,7 @@ public class MarketDAOTest {
     @Test
     public void testInsert() {
         // UTC time 15:30PM - 22:00PM
-        Market nyse = new Market("NYSE", 930, 1320);
+        Market nyse = new Market("NYSE", 570, 960, "America/New_York");
         dao.insert(nyse);
 
         Market market = (Market) dao.get(nyse.getId());

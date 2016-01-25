@@ -6,15 +6,37 @@ import org.mongodb.morphia.utils.IndexType;
 
 import java.util.Date;
 
-@Entity(value = Market.TABLE_NAME, noClassnameStored = true)
+@Entity(value = SymbolPrice.TABLE_NAME, noClassnameStored = true)
 @Indexes({
     @Index(fields = {@Field("symbol"), @Field("type"), @Field(value = "time", type = IndexType.DESC)})
 })
 public class SymbolPrice {
     public static final String TABLE_NAME = "prices";
 
-    public enum PriceType {
+    public static enum PriceType {
         ONEMIN, FIVEMIN, THIRTYMIN, HOUR, DAY, WEEK, MONTH
+    };
+
+    public static enum Columns {
+        ID("_id"),
+        PRICETYPE("type"),
+        SYMBOL("symbol"),
+        OPEN("open"),
+        CLOSE("close"),
+        HIGH("high"),
+        LOW("low"),
+        VOLUME("volume"),
+        TIME("time");
+
+        private final String name;
+
+        Columns(String name) {
+            this.name = name;
+        }
+
+        public String val() {
+            return name;
+        }
     };
 
     @Id
@@ -28,6 +50,20 @@ public class SymbolPrice {
     private float low;
     private long volume;
     private Date time;
+
+    public SymbolPrice() {}
+
+    public SymbolPrice(PriceType type, Symbol symbol, float open,
+                       float high, float low, float close, long volume, Date time) {
+        this.type = type;
+        this.symbol = symbol;
+        this.open = open;
+        this.close = close;
+        this.high = high;
+        this.low = low;
+        this.volume = volume;
+        this.time = time;
+    }
 
     public ObjectId getId() {
         return id;

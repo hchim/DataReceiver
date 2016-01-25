@@ -25,6 +25,10 @@ public abstract class BaseJob implements Job {
     public abstract String execute(Object[] args);
 
     private void handleJobResult(String result) {
+        if (result == null) {
+            return;
+        }
+
         logger.debug(result.substring(0, 100));
     }
 }

@@ -7,6 +7,14 @@
       "args": [
         "http://www.google.com"
       ]
+    },
+    {
+      "name": "daily_quote",
+      "class": "im.hch.datareceiver.jobs.DailyQuotesUpdateJob",
+      "cron_expression": "0/30 * * * * ?",
+      "args": [
+        "NASDAQ"
+      ]
     }
   ],
   "db_config": {
@@ -14,5 +22,6 @@
     "port": 27017,
     "db_name": "testdb"
 
-  }
+  },
+  "datasource" : "google"
 }

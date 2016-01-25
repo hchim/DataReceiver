@@ -3,15 +3,31 @@ package im.hch.datareceiver.model;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.*;
 
-import java.util.Date;
-
-@Entity(Market.TABLE_NAME)
+@Entity(value = Symbol.TABLE_NAME, noClassnameStored = true)
 @Indexes({
     @Index(fields = @Field("symbol")),
     @Index(fields = @Field("name"))
 })
 public class Symbol {
     public static final String TABLE_NAME = "symbols";
+
+    public static enum Columns {
+        ID("_id"),
+        SYMBOL("symbol"),
+        NAME("name"),
+        INDUSTRY("industry"),
+        MARKET("market");
+
+        private final String name;
+
+        Columns(String name) {
+            this.name = name;
+        }
+
+        public String val() {
+            return name;
+        }
+    };
 
     @Id
     private ObjectId id;
@@ -20,8 +36,6 @@ public class Symbol {
     private String industry;
     @Reference
     private Market market;
-    @Property("update_time")
-    private Date lastUpdateTime;
 
     public Symbol() {}
 
@@ -70,13 +84,5 @@ public class Symbol {
 
     public void setMarket(Market market) {
         this.market = market;
-    }
-
-    public Date getLastUpdateTime() {
-        return lastUpdateTime;
-    }
-
-    public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
     }
 }
