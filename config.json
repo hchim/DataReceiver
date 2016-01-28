@@ -1,20 +1,10 @@
 {
   "jobs" : [
     {
-      "name": "curl",
-      "class": "im.hch.datareceiver.jobs.CurlJob",
-      "cron_expression": "0/10 * * * * ?",
-      "args": [
-        "http://www.google.com"
-      ]
-    },
-    {
-      "name": "daily_quote",
-      "class": "im.hch.datareceiver.jobs.DailyQuotesUpdateJob",
-      "cron_expression": "0/30 * * * * ?",
-      "args": [
-        "NASDAQ"
-      ]
+      "name": "job_sync",
+      "class": "im.hch.datareceiver.jobs.SyncCronJob",
+      "cron_expression": "0 0/5 * * * ?",
+      "args": []
     }
   ],
   "db_config": {

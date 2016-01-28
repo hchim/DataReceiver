@@ -1,5 +1,7 @@
 package im.hch.datareceiver.jobs;
 
+import im.hch.datareceiver.model.CronLog;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,7 +29,7 @@ public abstract class CommandJob extends BaseJob {
 
             return buff.toString();
         } catch (IOException ioe) {
-            logger.warn("Failed to execute command: " + command);
+            appendExecLog(String.format("Failed to execute command: %s \r\n %s", command, ioe.getMessage()));
             return null;
         }
     }

@@ -26,7 +26,7 @@ public class DailyQuotesUpdateJob extends BaseJob {
     @Override
     public String execute(Object[] args) {
         if (dataSource == null) {
-            logger.error("Failed to create datasource.");
+            appendExecLog("Failed to create datasource.");
             return null;
         }
 
@@ -35,12 +35,14 @@ public class DailyQuotesUpdateJob extends BaseJob {
         List<Symbol> symbols = repository.getSymbolsOfMarket(market);
         for (Symbol symbol : symbols) {
             Calendar toDate = Calendar.getInstance(symbol.getMarket().getTimeZoneObj());
-            Calendar fromDate = getFromDate(toDate, repository.getLastUpdateTime(symbol, SymbolPrice.PriceType.DAY));
-            List<SymbolPrice> prices = dataSource.retrieveDailyPrices(symbol, fromDate.getTime(), toDate.getTime());
+            Calendar fromDate = getFromDate(toDate,
+                    repository.getLastUpdateTime(symbol, SymbolPrice.PriceType.DAY));
+            List<SymbolPrice> prices = dataSource.retrieveDailyPrices(symbol,
+                    fromDate.getTime(), toDate.getTime());
             repository.saveSymbolPrices(prices);
         }
-        //TODO add execute log to db
-        return null;
+
+        return String.format("Synced %d symbols.", symbols.size());
     }
 
     /**

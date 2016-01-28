@@ -1,5 +1,7 @@
 package im.hch.datareceiver.jobs;
 
+import im.hch.datareceiver.model.CronLog;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -25,6 +27,7 @@ public class CurlJob extends CommandJob {
             URL url = new URL((String) args[0]);
             return true;
         } catch (MalformedURLException ex) {
+            appendExecLog("Wrong URL: " + args[0]);
             return false;
         }
     }

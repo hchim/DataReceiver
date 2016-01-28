@@ -13,7 +13,7 @@ public class MarketDAO extends BaseDAO {
 
     public Market findByName(String name) {
         Query<Market> query = datastore.createQuery(getEntityClass());
-            query.field(Columns.NAME.val()).equal(name);
+        query.field(Columns.NAME.val()).equal(name);
         Object object = findOne(query);
         return object != null ? (Market) object : null;
     }
