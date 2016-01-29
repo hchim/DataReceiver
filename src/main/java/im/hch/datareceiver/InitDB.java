@@ -2,7 +2,6 @@ package im.hch.datareceiver;
 
 import im.hch.datareceiver.dao.*;
 import im.hch.datareceiver.model.CronJob;
-import im.hch.datareceiver.model.CronLog;
 import im.hch.datareceiver.model.Market;
 import im.hch.datareceiver.model.Symbol;
 

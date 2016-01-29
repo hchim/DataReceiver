@@ -4,7 +4,6 @@ import im.hch.datareceiver.model.CronJob;
 import org.mongodb.morphia.query.Query;
 
 import java.util.List;
-import java.util.Queue;
 
 public class CronJobDAO extends BaseDAO {
     @Override

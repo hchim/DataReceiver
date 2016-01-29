@@ -1,7 +1,5 @@
 package im.hch.datareceiver.jobs;
 
-import im.hch.datareceiver.model.CronLog;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
