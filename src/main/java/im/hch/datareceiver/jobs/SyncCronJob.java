@@ -95,11 +95,13 @@ public class SyncCronJob extends BaseJob {
             JobDetail jobDetail = JobBuilder.newJob(jobClass)
                     .withIdentity(jobName, JOB_GROUP_NAME)
                     .build();
+            jobDetail.getJobDataMap().put(BaseJob.ARGS, job.getArgs());
+
             CronTrigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity("Trigger-" + jobName, JOB_GROUP_NAME)
                     .withSchedule(CronScheduleBuilder.cronSchedule(job.getCronExpr()).inTimeZone(timeZone))
                     .build();
-            scheduler.getContext().put(BaseJob.ARGS, job.getArgs());
+
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (ClassNotFoundException ex) {
             logger.error(String.format("Class %s cannot be found, failed to create job.", job.getClassName()), ex);

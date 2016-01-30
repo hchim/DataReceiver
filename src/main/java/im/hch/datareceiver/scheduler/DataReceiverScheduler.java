@@ -35,15 +35,18 @@ public class DataReceiverScheduler {
                 logger.error(String.format("Class %s does not implements interface Job. Failed to add job.", className));
                 return false;
             }
+
             long time = System.currentTimeMillis();
             JobDetail job = JobBuilder.newJob(jobClass)
                     .withIdentity(name + "-" + time, GROUP_NAME)
                     .build();
+            job.getJobDataMap().put(BaseJob.ARGS, args);
+
             CronTrigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity("Trigger-" + time, GROUP_NAME)
                     .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
                     .build();
-            scheduler.getContext().put(BaseJob.ARGS, args);
+
             scheduler.scheduleJob(job, trigger);
             return true;
         } catch (ClassNotFoundException ex) {

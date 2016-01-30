@@ -26,13 +26,13 @@ public abstract class BaseJob implements Job {
             JobDetail jobDetail = jobExecutionContext.getJobDetail();
             jobName = jobDetail.getKey().getName();
             groupName = jobDetail.getKey().getGroup();
-            SchedulerContext context = jobExecutionContext.getScheduler().getContext();
-            Object[] args = (Object[]) context.get(ARGS);
+
+            Object[] args = (Object[]) jobDetail.getJobDataMap().get(ARGS);
             String result = execute(args);
             handleJobResult(result);
-        } catch (SchedulerException se) {
-            logger.warn("Failed to get scheduler context", se);
-            appendExecLog("Failed to get scheduler context. " + se.getMessage());
+        } catch (Exception ex) {
+            logger.warn("Failed to get scheduler context", ex);
+            appendExecLog("Failed to get scheduler context. " + ex.getMessage());
             state = CronLog.State.FAIL;
         } finally {
             // DB jobs were created by SyncCronJob and were assigned to this group
