@@ -15,6 +15,8 @@ public class Symbol {
         ID("_id"),
         SYMBOL("symbol"),
         NAME("name"),
+        IPOYEAR("ipoyear"),
+        SECTOR("sector"),
         INDUSTRY("industry"),
         MARKET("market");
 
@@ -33,16 +35,20 @@ public class Symbol {
     private ObjectId id;
     private String symbol;
     private String name;
+    private String ipoYear;
+    private String sector;
     private String industry;
     @Reference
     private Market market;
 
     public Symbol() {}
 
-    public Symbol(String symbol, String name, Market market, String industry) {
+    public Symbol(String symbol, String name, Market market, String ipoYear, String sector, String industry) {
         this.symbol = symbol;
         this.name = name;
         this.market = market;
+        this.sector = sector;
+        this.ipoYear = ipoYear;
         this.industry = industry;
     }
 
@@ -84,5 +90,21 @@ public class Symbol {
 
     public void setMarket(Market market) {
         this.market = market;
+    }
+
+    public String getSector() {
+        return sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
+
+    public String getIpoYear() {
+        return ipoYear;
+    }
+
+    public void setIpoYear(String ipoYear) {
+        this.ipoYear = ipoYear;
     }
 }

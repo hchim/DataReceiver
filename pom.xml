@@ -104,6 +104,12 @@
             <version>2.4</version>
             <scope>test</scope>
         </dependency>
+        <!-- CSV Reader-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
 </project>
