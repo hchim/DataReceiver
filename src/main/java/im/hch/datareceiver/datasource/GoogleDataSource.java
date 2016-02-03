@@ -1,15 +1,11 @@
 package im.hch.datareceiver.datasource;
 
-import im.hch.datareceiver.model.Symbol;
 import im.hch.datareceiver.model.SymbolPrice;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 class GoogleDataSource extends BaseDataSource {
     /*
@@ -27,41 +23,40 @@ class GoogleDataSource extends BaseDataSource {
     private Logger logger = Logger.getLogger(GoogleDataSource.class);
     private static SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
 
-    public String getDailyUri(String market, String symbol, Date from, Date to) {
+    public GoogleDataSource(JSONArray params) {
+        super(params);
+    }
+
+    @Override
+    protected String getDailyUri(String market, String symbol, Date from, Date to) {
+        symbol = symbol.replace('^', '-');
         return String.format(BASE_URL_TEMPLATE, market, symbol,
                 format.format(from), format.format(to));
     }
 
-    public List<SymbolPrice> parseResponseBody(String body, Symbol symbol) {
-        List<SymbolPrice> prices = new ArrayList<SymbolPrice>();
-        BufferedReader reader = new BufferedReader(new StringReader(body));
+    @Override
+    protected SymbolPrice parseLine(String line) {
         try {
-            reader.readLine(); //skip first line
-            String line;
-            String[] strs;
-            while ((line = reader.readLine()) != null) {
-                //Date,Open,High,Low,Close,Volume
-                //30-Jan-09,13.23,13.37,12.86,12.88,162955387
-                strs = line.split(",");
-                if (strs.length < 6) {
-                    continue;
-                }
-
-                Date time = format.parse(strs[0]);
-                float open = Float.valueOf(strs[1]);
-                float high = Float.valueOf(strs[2]);
-                float low = Float.valueOf(strs[3]);
-                float close = Float.valueOf(strs[4]);
-                long volume = Long.valueOf(strs[5]);
-
-                prices.add(new SymbolPrice(SymbolPrice.PriceType.DAY, symbol, open,
-                        high, low, close, volume, time));
+            //Date,Open,High,Low,Close,Volume
+            //30-Jan-09,13.23,13.37,12.86,12.88,162955387
+            String[] strs = line.split(",");
+            if (strs.length < 6) {
+                return null;
             }
-            logger.info(String.format("Parsed the daily price of symbol: " + symbol.getSymbol()));
-            return prices;
+
+            Date time = format.parse(strs[0]);
+            float open = Float.valueOf(strs[1]);
+            float high = Float.valueOf(strs[2]);
+            float low = Float.valueOf(strs[3]);
+            float close = Float.valueOf(strs[4]);
+            long volume = Long.valueOf(strs[5]);
+
+            SymbolPrice symbolPrice = new SymbolPrice(SymbolPrice.PriceType.DAY, null, open,
+                    high, low, close, volume, time);
+            return symbolPrice;
         } catch (Exception ex) {
             logger.warn("Failed to parse response.");
-            return prices;
+            return null;
         }
     }
 }

@@ -10,11 +10,12 @@ public class Config {
     public static final String CONFIG_FILE = "config.json";
     // data sources
     public static final String DATASOURCE_GOOGLE = "google";
+    public static final String DATASOURCE_QUANDL = "quandl";
 
     private JSONObject object;
     private ArrayList<JobConfig> jobConfigs;
     private DatabaseConfig dbConfig;
-    private String dataSource;
+    private DataSourceConfig dataSource;
     private static Config instance;
 
     private Config() {
@@ -26,7 +27,7 @@ public class Config {
         }
 
         dbConfig = new DatabaseConfig(object.getJSONObject("db_config"));
-        dataSource = object.optString("datasource", DATASOURCE_GOOGLE);
+        dataSource = new DataSourceConfig(object.getJSONObject("dataSource"));
     }
 
     public synchronized static Config getConfig() {
@@ -41,7 +42,7 @@ public class Config {
         return object != null;
     }
 
-    public String getDataSource() {
+    public DataSourceConfig getDataSourceConfig() {
         return dataSource;
     }
 
@@ -87,6 +88,17 @@ public class Config {
             dbName = obj.getString("db_name");
             username = obj.optString("username", "");
             password = obj.optString("password", "");
+        }
+    }
+
+    public static class DataSourceConfig {
+        public String name;
+        public JSONArray params;
+
+        DataSourceConfig(JSONObject obj) {
+            name = obj.getString("name");
+            params = obj.getJSONArray("params");
+
         }
     }
 }

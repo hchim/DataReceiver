@@ -13,5 +13,8 @@
     "db_name": "testdb"
 
   },
-  "datasource" : "google"
+  "datasource" : {
+    "name" : "quandl",
+    "params" : ["KYKFoypsF1Viia3F5WC_", "WIKI"]
+  }
 }
