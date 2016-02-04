@@ -27,7 +27,7 @@ public class Config {
         }
 
         dbConfig = new DatabaseConfig(object.getJSONObject("db_config"));
-        dataSource = new DataSourceConfig(object.getJSONObject("dataSource"));
+        dataSource = new DataSourceConfig(object.getJSONObject("datasource"));
     }
 
     public synchronized static Config getConfig() {

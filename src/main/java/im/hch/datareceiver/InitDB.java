@@ -7,7 +7,6 @@ import im.hch.datareceiver.model.Symbol;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -29,11 +28,11 @@ public class InitDB {
     }
 
     private void clearAllCollections() {
-        symbolPriceDAO.removeAll();
-        symbolDAO.removeAll();
-        marketDAO.removeAll();
-        cronJobDAO.removeAll();
-        cronLogDAO.removeAll();
+        symbolPriceDAO.deteteAll();
+        symbolDAO.deteteAll();
+        marketDAO.deteteAll();
+        cronJobDAO.deteteAll();
+        cronLogDAO.deteteAll();
     }
 
     private void initMarketAndSymbols() {

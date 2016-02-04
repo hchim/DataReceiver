@@ -18,5 +18,5 @@ public interface DAO {
 
     public List<Object> getAll();
 
-    public void removeAll();
+    public void deteteAll();
 }

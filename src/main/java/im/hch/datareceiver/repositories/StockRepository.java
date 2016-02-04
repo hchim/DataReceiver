@@ -8,7 +8,6 @@ import im.hch.datareceiver.model.Symbol;
 import im.hch.datareceiver.model.SymbolPrice;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class StockRepository {
@@ -36,14 +35,11 @@ public class StockRepository {
         symbolPriceDAO.insert(prices);
     }
 
-    public Calendar getLastUpdateTime(Symbol symbol, SymbolPrice.PriceType type) {
-        SymbolPrice price = symbolPriceDAO.findLastUpdate(symbol, type);
-        if (price != null) {
-            Calendar time = Calendar.getInstance();
-            time.setTime(price.getTime());
-            return time;
-        }
+    public SymbolPrice getLastPrice(Symbol symbol, SymbolPrice.PriceType type) {
+        return symbolPriceDAO.findLastUpdate(symbol, type);
+    }
 
-        return null;
+    public void removePricesOfSymbol(Symbol symbol) {
+        symbolPriceDAO.deletePricesOfSymbol(symbol);
     }
 }

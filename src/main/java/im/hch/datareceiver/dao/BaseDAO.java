@@ -42,6 +42,10 @@ public abstract class BaseDAO implements DAO {
         datastore.save(obj);
     }
 
+    /**
+     * Delete a document.
+     * @param id the id of the document.
+     */
     public void delete(Object id) {
         if (id == null) {
             return;
@@ -69,7 +73,7 @@ public abstract class BaseDAO implements DAO {
         return datastore.getCount(getEntityClass());
     }
 
-    public void removeAll() {
+    public void deteteAll() {
         Query query = datastore.createQuery(getEntityClass());
         datastore.delete(query);
     }

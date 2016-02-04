@@ -18,4 +18,10 @@ public class SymbolPriceDAO extends BaseDAO {
         Object object = findOne(query);
         return object != null ? (SymbolPrice) object : null;
     }
+
+    public void deletePricesOfSymbol(Symbol symbol) {
+        Query<SymbolPrice> query = datastore.createQuery(getEntityClass());
+        query.field(Columns.SYMBOL.val()).equal(symbol);
+        datastore.delete(query);
+    }
 }
